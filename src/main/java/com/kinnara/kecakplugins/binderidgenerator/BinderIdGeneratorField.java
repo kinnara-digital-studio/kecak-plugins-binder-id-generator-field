@@ -24,15 +24,8 @@ public class BinderIdGeneratorField extends IdGeneratorField {
         PluginManager pluginManager = (PluginManager) applicationContext.getBean("pluginManager");
         FormLoadElementBinder formLoadBinder = pluginManager.getPluginObject((Map<String, Object>) getProperty("idLoadBinder"));
 
-//        Form form = FormUtil.findRootForm(this);
         return Optional.ofNullable(formLoadBinder)
-                .map(s -> {
-//                    if(s instanceof FormBinder) {
-//                        ((FormBinder) s).setElement(this);
-//                    }
-
-                    return s.load(this, formData.getPrimaryKeyValue(), formData);
-                })
+                .map(s -> s.load(this, formData.getPrimaryKeyValue(), formData))
                 .map(Collection::stream)
                 .orElseGet(Stream::empty)
                 .findFirst()
