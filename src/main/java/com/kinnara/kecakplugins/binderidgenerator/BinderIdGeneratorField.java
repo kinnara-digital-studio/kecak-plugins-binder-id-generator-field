@@ -2,22 +2,21 @@ package com.kinnara.kecakplugins.binderidgenerator;
 
 import org.joget.apps.app.service.AppUtil;
 import org.joget.apps.form.lib.IdGeneratorField;
-import org.joget.apps.form.model.*;
-import org.joget.apps.form.service.FormUtil;
+import org.joget.apps.form.model.FormData;
+import org.joget.apps.form.model.FormLoadElementBinder;
 import org.joget.plugin.base.PluginManager;
 import org.springframework.context.ApplicationContext;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 /**
  * @author aristo
  */
 public class BinderIdGeneratorField extends IdGeneratorField {
-    final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-
     @Override
     protected String getGeneratedValue(FormData formData) {
         ApplicationContext applicationContext = AppUtil.getApplicationContext();
@@ -69,6 +68,8 @@ public class BinderIdGeneratorField extends IdGeneratorField {
 
     @Override
     public String getPropertyOptions() {
-        return Optional.ofNullable(AppUtil.readPluginResource(getClassName(), "/properties/BinderIdGeneratorField.json", null, true, null)).orElse("").replaceAll("\"", "'");
+        return Optional.ofNullable(AppUtil.readPluginResource(getClassName(), "/properties/BinderIdGeneratorField.json", null, true, "/messages/BinderIdGeneratorField"))
+                .orElse("")
+                .replaceAll("\"", "'");
     }
 }

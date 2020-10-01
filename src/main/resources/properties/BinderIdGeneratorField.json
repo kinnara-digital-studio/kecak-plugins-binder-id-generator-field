@@ -1,6 +1,6 @@
 [
 	{
-		"title" : "Binder ID Generator",
+		"title" : "Edit @@binderIdGenerator.title@@",
 		"properties" : [
 			{
 				"name" : "id",
@@ -12,14 +12,14 @@
 			},
 			{
 				"name" : "label",
-				"label" : "Label",
+				"label" : "@@form.idgeneratorfield.label@@",
 				"type" : "textfield",
 				"required" : "True",
 				"value" : "IdGeneratorField"
 			},
 			{
 				"name": "idLoadBinder",
-				"label": "Load Binder",
+				"label": "@@binderIdGenerator.loadBinder@@",
 				"type": "elementselect",
 				"required": "true",
 				"options_ajax":"[CONTEXT_PATH]/web/property/json/getElements?classname=org.joget.apps.form.model.FormLoadElementBinder",
@@ -27,14 +27,14 @@
 			},
 			{
 				"name": "fieldName",
-				"label": "Field Name",
+				"label": "@@binderIdGenerator.fieldName@@",
 				"type": "textfield",
 				"required": "true"
 			}
         ]
     },
 	{
-		"title" : "Advance",
+		"title" : "@@form.idgeneratorfield.advance@@",
 		"properties" : [
 			{
 				"label" : "UI",
@@ -42,7 +42,7 @@
 			},
 			{
 				"name" : "hidden",
-				"label" : "Hidden",
+				"label" : "@@binderIdGenerator.hidden@@",
 				"type" : "checkbox",
 				"options" : [{
 					"value" : "true",
@@ -50,12 +50,12 @@
 				}]
 			},
 			{
-				"label" : "Workflow",
+				"label" : "@@binderIdGenerator.workflow@@",
 				"type" : "header"
 			},
 			{
 				"name" : "workflowVariable",
-				"label" : "Workflow Variable",
+				"label" : "@@binderIdGenerator.workflowVariable@@",
 				"type" : "textfield"
 			}
 		]
