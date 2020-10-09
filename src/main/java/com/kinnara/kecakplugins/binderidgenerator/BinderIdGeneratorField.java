@@ -4,6 +4,8 @@ import org.joget.apps.app.service.AppUtil;
 import org.joget.apps.form.lib.IdGeneratorField;
 import org.joget.apps.form.model.FormData;
 import org.joget.apps.form.model.FormLoadElementBinder;
+import org.joget.apps.form.service.FormUtil;
+import org.joget.commons.util.LogUtil;
 import org.joget.plugin.base.PluginManager;
 import org.springframework.context.ApplicationContext;
 
@@ -17,6 +19,16 @@ import java.util.stream.Stream;
  * @author aristo
  */
 public class BinderIdGeneratorField extends IdGeneratorField {
+    @Override
+    public String getFormBuilderCategory() {
+        return "Kecak";
+    }
+
+    @Override
+    public int getFormBuilderPosition() {
+        return 100;
+    }
+
     @Override
     protected String getGeneratedValue(FormData formData) {
         ApplicationContext applicationContext = AppUtil.getApplicationContext();
@@ -32,7 +44,17 @@ public class BinderIdGeneratorField extends IdGeneratorField {
                 .filter(s -> !s.isEmpty())
 
                 // testing value, default set to current date
-                .orElse(UUID.randomUUID().toString());
+                .orElseGet(() -> {
+                    if(isValidateError()) {
+                        formData.addFormError(FormUtil.getElementParameterName(this), "Error retrieving value");
+                        LogUtil.warn(getClassName(), "Error retrieving value from load binder ["+Optional.ofNullable(formLoadBinder)
+                                .map(FormLoadElementBinder::getClass)
+                                .map(Class::getName).orElse("null")+"]");
+                        return null;
+                    } else {
+                        return UUID.randomUUID().toString();
+                    }
+                });
     }
 
     private String getFieldName() {
@@ -71,5 +93,22 @@ public class BinderIdGeneratorField extends IdGeneratorField {
         return Optional.ofNullable(AppUtil.readPluginResource(getClassName(), "/properties/BinderIdGeneratorField.json", null, true, "/messages/BinderIdGeneratorField"))
                 .orElse("")
                 .replaceAll("\"", "'");
+    }
+
+    @Override
+    public String renderTemplate(FormData formData, @SuppressWarnings("rawtypes") Map dataModel) {
+        String template = "BinderIdGeneratorField.ftl";
+        return renderTemplate(template,formData,dataModel);
+    }
+
+    protected String renderTemplate(String template, FormData formData, @SuppressWarnings("rawtypes") Map dataModel){
+        String value = getElementValue(formData);
+        dataModel.put("value", value);
+        String html = FormUtil.generateElementHtml(this, formData, template, dataModel);
+        return html;
+    }
+
+    private boolean isValidateError() {
+        return "true".equalsIgnoreCase(getPropertyString("validateError"));
     }
 }

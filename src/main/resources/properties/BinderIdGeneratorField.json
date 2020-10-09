@@ -57,6 +57,15 @@
 				"name" : "workflowVariable",
 				"label" : "@@binderIdGenerator.workflowVariable@@",
 				"type" : "textfield"
+			},
+			{
+				"name": "validateError",
+				"label" : "@@binderIdGenerator.validateError@@",
+				"type" : "checkbox",
+				"options" : [{
+					"value" : "true",
+					"label" : ""
+				}]
 			}
 		]
 	}
