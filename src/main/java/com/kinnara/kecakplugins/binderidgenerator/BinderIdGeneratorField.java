@@ -102,7 +102,7 @@ public class BinderIdGeneratorField extends IdGeneratorField {
     }
 
     protected String renderTemplate(String template, FormData formData, @SuppressWarnings("rawtypes") Map dataModel){
-        String value = getElementValue(formData);
+        String value = FormUtil.getElementPropertyValue(this, formData);
         dataModel.put("value", value);
         String html = FormUtil.generateElementHtml(this, formData, template, dataModel);
         return html;
