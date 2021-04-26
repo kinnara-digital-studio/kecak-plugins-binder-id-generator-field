@@ -45,11 +45,12 @@ public class BinderIdGeneratorField extends IdGeneratorField {
 
                 // testing value, default set to current date
                 .orElseGet(() -> {
+                    LogUtil.warn(getClassName(), "Error retrieving value from load binder ["+Optional.ofNullable(formLoadBinder)
+                            .map(FormLoadElementBinder::getClass)
+                            .map(Class::getName).orElse("null")+"]");
+
                     if(isValidateError()) {
                         formData.addFormError(FormUtil.getElementParameterName(this), "Error retrieving value");
-                        LogUtil.warn(getClassName(), "Error retrieving value from load binder ["+Optional.ofNullable(formLoadBinder)
-                                .map(FormLoadElementBinder::getClass)
-                                .map(Class::getName).orElse("null")+"]");
                         return null;
                     } else {
                         return UUID.randomUUID().toString();
