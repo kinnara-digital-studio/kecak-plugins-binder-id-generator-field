@@ -41,6 +41,7 @@ public class BinderIdGeneratorField extends IdGeneratorField {
                 .orElseGet(Stream::empty)
                 .findFirst()
                 .flatMap(r -> Optional.of(getFieldName()).map(r::getProperty))
+                .map(String::trim)
                 .filter(s -> !s.isEmpty())
 
                 // testing value, default set to current date
