@@ -16,6 +16,7 @@ public class Activator implements BundleActivator {
 
         //Register plugin here
         registrationList.add(context.registerService(BinderIdGeneratorField.class.getName(), new BinderIdGeneratorField(), null));
+        registrationList.add(context.registerService(DefaultIdGeneratorBinder.class.getName(), new DefaultIdGeneratorBinder(), null));
     }
 
     public void stop(BundleContext context) {

@@ -62,7 +62,8 @@ public class BinderIdGeneratorField extends IdGeneratorField {
     private String getFieldName() {
         return Optional.of("fieldName")
                 .map(this::getPropertyString)
-                .orElse("");
+                .filter(s -> !s.isEmpty())
+                .orElseGet(() -> getPropertyString(FormUtil.PROPERTY_ID));
     }
 
     @Override
@@ -92,7 +93,8 @@ public class BinderIdGeneratorField extends IdGeneratorField {
 
     @Override
     public String getPropertyOptions() {
-        return Optional.ofNullable(AppUtil.readPluginResource(getClassName(), "/properties/BinderIdGeneratorField.json", null, true, "/messages/BinderIdGeneratorField"))
+        final String[] args = new String[] {DefaultIdGeneratorBinder.class.getName()};
+        return Optional.ofNullable(AppUtil.readPluginResource(getClassName(), "/properties/BinderIdGeneratorField.json", args, true, "/messages/BinderIdGeneratorField"))
                 .orElse("")
                 .replaceAll("\"", "'");
     }

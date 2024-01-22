@@ -1,0 +1,19 @@
+[{
+  "title" : "@@form.idgeneratorfield.editIdGeneratorField@@",
+  "properties" : [
+    {
+      "name" : "envVariable",
+      "description" : "@@form.idgeneratorfield.envVariableDesc@@",
+      "label" : "@@form.idgeneratorfield.envVariableName@@",
+      "type" : "textfield",
+      "required" : "True",
+      "value" : "counter"
+    },
+    {
+      "name" : "format",
+      "label" : "@@form.idgeneratorfield.format@@",
+      "type" : "textfield",
+      "required" : "True",
+      "value" : "ID-??????"
+    }]
+}]
