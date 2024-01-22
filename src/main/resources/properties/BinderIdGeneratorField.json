@@ -29,7 +29,8 @@
 			{
 				"name": "fieldName",
 				"label": "@@binderIdGenerator.fieldName@@",
-				"type": "textfield"
+				"type": "textfield",
+				"description": "@@binderIdGenerator.fieldName.desc@@"
 			}
         ]
     },
