@@ -1,13 +1,15 @@
-package com.kinnara.kecakplugins.binderidgenerator;
+package com.kinnarastudio.kecakplugins.binderidgenerator;
 
 import org.joget.apps.app.service.AppUtil;
 import org.joget.apps.form.dao.FormDataDao;
 import org.joget.apps.form.model.*;
 import org.joget.apps.form.service.FormUtil;
+import org.joget.plugin.base.PluginManager;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -50,7 +52,10 @@ public class UniqueIdValueValidator extends FormValidator {
 
     @Override
     public String getVersion() {
-        return getClass().getPackage().getImplementationVersion();
+        PluginManager pluginManager = (PluginManager) AppUtil.getApplicationContext().getBean("pluginManager");
+        ResourceBundle resourceBundle = pluginManager.getPluginMessageBundle(getClassName(), "/messages/BuildNumber");
+        String buildNumber = resourceBundle.getString("buildNumber");
+        return buildNumber;
     }
 
     @Override
@@ -75,8 +80,8 @@ public class UniqueIdValueValidator extends FormValidator {
 
     public String getCondition(String fieldId, String[] values) {
         String questions = Optional.ofNullable(values)
-                .map(Arrays::stream)
-                .orElseGet(Stream::empty)
+                .stream()
+                .flatMap(Arrays::stream)
                 .filter(s -> !s.isEmpty())
                 .map(s -> "?")
                 .collect(Collectors.joining(", "));

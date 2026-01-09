@@ -1,4 +1,4 @@
-package com.kinnara.kecakplugins.binderidgenerator;
+package com.kinnarastudio.kecakplugins.binderidgenerator;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

@@ -1,4 +1,4 @@
-package com.kinnara.kecakplugins.binderidgenerator;
+package com.kinnarastudio.kecakplugins.binderidgenerator;
 
 import org.joget.apps.app.dao.EnvironmentVariableDao;
 import org.joget.apps.app.model.AppDefinition;
@@ -7,13 +7,16 @@ import org.joget.apps.form.lib.IdGeneratorField;
 import org.joget.apps.form.model.*;
 import org.joget.apps.form.service.FormUtil;
 import org.joget.commons.util.LogUtil;
+import org.joget.plugin.base.PluginManager;
 
 import java.text.DecimalFormat;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DefaultIdGeneratorBinder extends FormBinder implements FormLoadElementBinder {
     public final static String LABEL = "Default ID Generator Binder";
+
     @Override
     public FormRowSet load(Element element, String primaryKey, FormData formData) {
         final String elementId = element.getPropertyString(FormUtil.PROPERTY_ID);
@@ -34,7 +37,10 @@ public class DefaultIdGeneratorBinder extends FormBinder implements FormLoadElem
 
     @Override
     public String getVersion() {
-        return getClass().getPackage().getImplementationVersion();
+        PluginManager pluginManager = (PluginManager) AppUtil.getApplicationContext().getBean("pluginManager");
+        ResourceBundle resourceBundle = pluginManager.getPluginMessageBundle(getClassName(), "/messages/BuildNumber");
+        String buildNumber = resourceBundle.getString("buildNumber");
+        return buildNumber;
     }
 
     @Override

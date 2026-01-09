@@ -1,4 +1,4 @@
-package com.kinnara.kecakplugins.binderidgenerator;
+package com.kinnarastudio.kecakplugins.binderidgenerator;
 
 import org.joget.apps.app.service.AppUtil;
 import org.joget.apps.form.lib.IdGeneratorField;
@@ -9,10 +9,7 @@ import org.joget.commons.util.LogUtil;
 import org.joget.plugin.base.PluginManager;
 import org.springframework.context.ApplicationContext;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -33,12 +30,12 @@ public class BinderIdGeneratorField extends IdGeneratorField {
     protected String getGeneratedValue(FormData formData) {
         ApplicationContext applicationContext = AppUtil.getApplicationContext();
         PluginManager pluginManager = (PluginManager) applicationContext.getBean("pluginManager");
-        FormLoadElementBinder formLoadBinder = pluginManager.getPluginObject((Map<String, Object>) getProperty("idLoadBinder"));
+        FormLoadElementBinder formLoadBinder = pluginManager.getPlugin((Map<String, Object>) getProperty("idLoadBinder"));
 
         return Optional.ofNullable(formLoadBinder)
                 .map(s -> s.load(this, formData.getPrimaryKeyValue(), formData))
-                .map(Collection::stream)
-                .orElseGet(Stream::empty)
+                .stream()
+                .flatMap(Collection::stream)
                 .findFirst()
                 .flatMap(r -> Optional.of(getFieldName()).map(r::getProperty))
                 .map(String::trim)
@@ -68,12 +65,15 @@ public class BinderIdGeneratorField extends IdGeneratorField {
 
     @Override
     public String getName() {
-        return getLabel() + getVersion();
+        return getLabel();
     }
 
     @Override
     public String getVersion() {
-        return getClass().getPackage().getImplementationVersion();
+        PluginManager pluginManager = (PluginManager) AppUtil.getApplicationContext().getBean("pluginManager");
+        ResourceBundle resourceBundle = pluginManager.getPluginMessageBundle(getClassName(), "/messages/BuildNumber");
+        String buildNumber = resourceBundle.getString("buildNumber");
+        return buildNumber;
     }
 
     @Override
