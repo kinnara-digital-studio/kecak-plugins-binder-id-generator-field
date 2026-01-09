@@ -93,7 +93,10 @@ public class BinderIdGeneratorField extends IdGeneratorField {
 
     @Override
     public String getPropertyOptions() {
-        final String[] args = new String[] {DefaultIdGeneratorBinder.class.getName()};
+        final String[] args = new String[] {
+                DefaultIdGeneratorBinder.class.getName(),
+                FormLoadElementBinder.class.getName()
+        };
         return Optional.ofNullable(AppUtil.readPluginResource(getClassName(), "/properties/BinderIdGeneratorField.json", args, true, "/messages/BinderIdGeneratorField"))
                 .orElse("")
                 .replaceAll("\"", "'");
